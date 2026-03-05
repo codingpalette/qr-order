@@ -102,7 +102,10 @@ export function MenuItemCard({
               >
                 <Minus className="size-3" />
               </button>
-              <span className="w-5 text-center text-sm font-bold text-orange-500">
+              <span
+                key={quantity}
+                className="w-5 animate-pop text-center text-sm font-bold text-orange-500"
+              >
                 {quantity}
               </span>
               <button
@@ -132,7 +135,7 @@ export function MenuItemCard({
                 e.stopPropagation();
                 hasOptions ? onTap() : onIncrement();
               }}
-              className="flex size-8 items-center justify-center rounded-full border border-orange-300 text-orange-500 transition-colors active:bg-orange-50"
+              className="flex size-8 items-center justify-center rounded-full border border-orange-300 text-orange-500 transition-all active:scale-110 active:bg-orange-50"
             >
               <Plus className="size-4" />
             </button>

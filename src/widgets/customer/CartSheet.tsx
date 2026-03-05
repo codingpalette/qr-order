@@ -28,8 +28,8 @@ export function CartSheet({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
-      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative max-h-[80dvh] w-full max-w-lg overflow-hidden rounded-t-2xl bg-white pb-safe">
+      <div className="absolute inset-0 animate-fade-in bg-black/50" onClick={onClose} />
+      <div className="relative max-h-[80dvh] w-full max-w-lg animate-sheet-up overflow-hidden rounded-t-2xl bg-white pb-safe">
         <div className="flex items-center justify-between border-b border-gray-100 px-4 py-3">
           <h2 className="text-lg font-bold text-gray-900">장바구니</h2>
           <button

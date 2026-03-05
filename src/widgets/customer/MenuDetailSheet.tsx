@@ -101,8 +101,8 @@ export function MenuDetailSheet({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center">
-      <div className="absolute inset-0 bg-black/50" onClick={() => { resetState(); onClose(); }} />
-      <div className="relative max-h-[85dvh] w-full max-w-lg overflow-hidden rounded-t-2xl bg-white pb-safe">
+      <div className="absolute inset-0 animate-fade-in bg-black/50" onClick={() => { resetState(); onClose(); }} />
+      <div className="relative max-h-[85dvh] w-full max-w-lg animate-sheet-up overflow-hidden rounded-t-2xl bg-white pb-safe">
         {/* Drag handle */}
         <div className="flex justify-center pt-3 pb-1">
           <div className="h-1 w-10 rounded-full bg-gray-300" />
