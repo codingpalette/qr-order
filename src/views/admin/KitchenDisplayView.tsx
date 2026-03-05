@@ -90,6 +90,14 @@ export function KitchenDisplayView() {
     [updateStatus],
   );
 
+  const handleRevert = useCallback(
+    (order: Order) => {
+      if (!window.confirm(`테이블 ${order.table_number} 주문을 조리중으로 되돌리시겠습니까?`)) return;
+      updateStatus.mutate({ id: order.id, status: "preparing" });
+    },
+    [updateStatus],
+  );
+
   if (isLoading) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-100">
@@ -138,6 +146,7 @@ export function KitchenDisplayView() {
           allItems={allItems}
           color="bg-green-100 text-green-900"
           onCardClick={handleCardClick}
+          onRevert={handleRevert}
           isUpdating={updateStatus.isPending}
         />
       </div>

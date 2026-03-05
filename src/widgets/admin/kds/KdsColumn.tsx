@@ -11,6 +11,7 @@ interface KdsColumnProps {
   allItems: OrderItem[];
   color: string;
   onCardClick: (order: Order) => void;
+  onRevert?: (order: Order) => void;
   isUpdating?: boolean;
 }
 
@@ -21,6 +22,7 @@ export function KdsColumn({
   allItems,
   color,
   onCardClick,
+  onRevert,
   isUpdating,
 }: KdsColumnProps) {
   return (
@@ -48,6 +50,7 @@ export function KdsColumn({
               items={allItems.filter((i) => i.order_id === order.id)}
               onClick={() => onCardClick(order)}
               disabled={isUpdating}
+              onRevert={onRevert ? () => onRevert(order) : undefined}
             />
           ))
         )}

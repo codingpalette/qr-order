@@ -9,6 +9,7 @@ interface KdsOrderCardProps {
   items: OrderItem[];
   onClick: () => void;
   disabled?: boolean;
+  onRevert?: () => void;
 }
 
 function useElapsedTime(createdAt: string) {
@@ -36,7 +37,7 @@ const nextActionLabel: Partial<Record<OrderStatus, string>> = {
   preparing: "완료 처리",
 };
 
-export function KdsOrderCard({ order, items, onClick, disabled }: KdsOrderCardProps) {
+export function KdsOrderCard({ order, items, onClick, disabled, onRevert }: KdsOrderCardProps) {
   const { elapsed, minutes } = useElapsedTime(order.created_at);
   const isCompleted = order.status === "completed";
 
@@ -59,12 +60,19 @@ export function KdsOrderCard({ order, items, onClick, disabled }: KdsOrderCardPr
           : "border-gray-200";
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled || isCompleted}
+    <div
+      role={!isCompleted && !disabled ? "button" : undefined}
+      tabIndex={!isCompleted && !disabled ? 0 : undefined}
+      onClick={!isCompleted && !disabled ? onClick : undefined}
+      onKeyDown={!isCompleted && !disabled ? (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      } : undefined}
       className={cn(
-        "w-full rounded-lg border-2 bg-white p-3 text-left transition-shadow hover:shadow-md disabled:cursor-default disabled:hover:shadow-none",
+        "w-full rounded-lg border-2 bg-white p-3 text-left transition-shadow",
+        !isCompleted && !disabled ? "cursor-pointer hover:shadow-md" : "cursor-default",
         borderColor,
         !isCompleted && minutes >= 10 && "animate-pulse",
       )}
@@ -129,6 +137,20 @@ export function KdsOrderCard({ order, items, onClick, disabled }: KdsOrderCardPr
           {"탭하여 → "}{nextActionLabel[order.status]}
         </div>
       )}
-    </button>
+
+      {/* Revert button for completed orders */}
+      {isCompleted && onRevert && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRevert();
+          }}
+          className="mt-2 w-full rounded bg-orange-100 py-1.5 text-center text-xs font-medium text-orange-700 transition-colors hover:bg-orange-200"
+        >
+          {"↩ 조리중으로 되돌리기"}
+        </button>
+      )}
+    </div>
   );
 }
