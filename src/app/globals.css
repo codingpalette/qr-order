@@ -152,3 +152,87 @@
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
 }
+
+/* Landing page typography scale */
+.text-display {
+  font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+
+/* Marquee animation */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes marquee-scroll-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.marquee-forward {
+  animation: marquee-scroll var(--marquee-speed, 40s) linear infinite;
+}
+.marquee-reverse {
+  animation: marquee-scroll-reverse var(--marquee-speed, 40s) linear infinite;
+}
+.marquee-container:hover .marquee-forward,
+.marquee-container:hover .marquee-reverse {
+  animation-play-state: paused;
+}
+
+/* Gradient blob for hero */
+@keyframes blob-float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -40px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+.animate-blob {
+  animation: blob-float 8s ease-in-out infinite;
+}
+.animate-blob-delay {
+  animation: blob-float 8s ease-in-out 2s infinite;
+}
+
+/* Animated gradient for CTA */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-forward,
+  .marquee-reverse,
+  .animate-blob,
+  .animate-blob-delay,
+  .animate-gradient {
+    animation: none !important;
+  }
+}

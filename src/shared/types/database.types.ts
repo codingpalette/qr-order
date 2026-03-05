@@ -820,11 +820,51 @@ export type Database = {
           },
         ];
       };
+      consultations: {
+        Row: {
+          id: string;
+          name: string;
+          phone: string;
+          store_name: string;
+          email: string | null;
+          message: string | null;
+          status: Database["public"]["Enums"]["consultation_status"];
+          note: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          name: string;
+          phone: string;
+          store_name: string;
+          email?: string | null;
+          message?: string | null;
+          status?: Database["public"]["Enums"]["consultation_status"];
+          note?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          name?: string;
+          phone?: string;
+          store_name?: string;
+          email?: string | null;
+          message?: string | null;
+          status?: Database["public"]["Enums"]["consultation_status"];
+          note?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
     Enums: {
       user_role: "pending" | "system_admin" | "brand_admin" | "store_admin";
+      consultation_status: "pending" | "contacted" | "completed";
     };
   };
 };

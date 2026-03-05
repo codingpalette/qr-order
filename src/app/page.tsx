@@ -4,6 +4,9 @@ import {
   SocialProof,
   FeaturesSection,
   HowItWorksSection,
+  SplineSection,
+  StatsSection,
+  PricingSection,
   CTASection,
   Footer,
 } from "@/widgets/landing";
@@ -17,6 +20,9 @@ export default function Page() {
         <SocialProof />
         <FeaturesSection />
         <HowItWorksSection />
+        {/* <SplineSection /> */}
+        <StatsSection />
+        <PricingSection />
         <CTASection />
       </main>
       <Footer />

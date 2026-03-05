@@ -6,6 +6,7 @@ import {
   LayoutDashboardIcon,
   BuildingIcon,
   UsersIcon,
+  MessageSquareIcon,
   SettingsIcon,
   LogOutIcon,
 } from "lucide-react";
@@ -39,6 +40,11 @@ const systemAdminNav: NavItem[] = [
     href: "/admin/system/users",
     icon: UsersIcon,
     permission: "user:read",
+  },
+  {
+    label: "상담 신청",
+    href: "/admin/system/consultations",
+    icon: MessageSquareIcon,
   },
   {
     label: "설정",

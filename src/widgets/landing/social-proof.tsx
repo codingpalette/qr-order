@@ -4,7 +4,11 @@ import {
   UtensilsCrossed,
   Salad,
   ChefHat,
+  Soup,
+  Sandwich,
+  CakeSlice,
 } from "lucide-react";
+import { Marquee } from "./marquee";
 
 const logos = [
   { name: "본사프랜차이즈", icon: Building2 },
@@ -12,29 +16,30 @@ const logos = [
   { name: "레스토랑그룹", icon: UtensilsCrossed },
   { name: "샐러드팜", icon: Salad },
   { name: "셰프키친", icon: ChefHat },
+  { name: "수프하우스", icon: Soup },
+  { name: "샌드위치랩", icon: Sandwich },
+  { name: "디저트라운지", icon: CakeSlice },
 ];
 
 export function SocialProof() {
   return (
-    <section className="border-y border-border bg-muted/50 py-12">
-      <div className="mx-auto max-w-7xl px-6">
-        <p className="mb-8 text-center text-sm font-medium text-muted-foreground">
-          {"이미 수많은 프랜차이즈가 함께하고 있습니다."}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-14">
-          {logos.map((logo) => (
-            <div
-              key={logo.name}
-              className="flex items-center gap-2 text-muted-foreground/60 transition-colors hover:text-muted-foreground"
-            >
-              <logo.icon className="size-6" />
-              <span className="text-base font-semibold tracking-tight">
-                {logo.name}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+    <section className="border-y border-border/50 bg-muted/30 py-10">
+      <p className="mb-6 text-center text-sm font-medium text-muted-foreground">
+        {"이미 수많은 프랜차이즈가 함께하고 있습니다."}
+      </p>
+      <Marquee speed={35}>
+        {logos.map((logo) => (
+          <div
+            key={logo.name}
+            className="flex shrink-0 items-center gap-2 text-muted-foreground/50 grayscale transition-all hover:text-muted-foreground hover:grayscale-0"
+          >
+            <logo.icon className="size-6" />
+            <span className="text-base font-semibold tracking-tight">
+              {logo.name}
+            </span>
+          </div>
+        ))}
+      </Marquee>
     </section>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button, buttonVariants } from "@/shared/ui/button";
 import {
@@ -15,6 +15,7 @@ import {
 import { QrCode, Menu, X, UserIcon, LayoutDashboardIcon, LogOutIcon } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { useAuth } from "@/shared/providers/auth-provider";
+import { ConsultationModal } from "./consultation-modal";
 
 const ROLE_DASHBOARD: Record<string, string> = {
   system_admin: "/admin/system",
@@ -24,12 +25,27 @@ const ROLE_DASHBOARD: Record<string, string> = {
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [consultationOpen, setConsultationOpen] = useState(false);
   const { user, isLoading, signOut } = useAuth();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const dashboardHref = user ? (ROLE_DASHBOARD[user.role] ?? "/admin/system") : "/login";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
+    <header
+      className={cn(
+        "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
+        scrolled
+          ? "border-b border-border/50 bg-background/80 backdrop-blur-xl"
+          : "bg-transparent",
+      )}
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <a href="#" className="flex items-center gap-2">
@@ -53,7 +69,7 @@ export function Header() {
             href="#how-it-works"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            {"도입 사례"}
+            {"이용 방법"}
           </a>
           <a
             href="#pricing"
@@ -103,7 +119,7 @@ export function Header() {
               {"로그인"}
             </Link>
           )}
-          <Button size="sm">{"무료 도입 상담"}</Button>
+          <Button size="sm" onClick={() => setConsultationOpen(true)}>{"무료 도입 상담"}</Button>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -122,7 +138,7 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="border-t border-border bg-background px-6 pb-6 pt-4 md:hidden">
+        <div className="border-t border-border bg-background/95 px-6 pb-6 pt-4 backdrop-blur-xl md:hidden">
           <nav className="flex flex-col gap-4">
             <a
               href="#features"
@@ -134,7 +150,7 @@ export function Header() {
               href="#how-it-works"
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              {"도입 사례"}
+              {"이용 방법"}
             </a>
             <a
               href="#pricing"
@@ -164,10 +180,11 @@ export function Header() {
                 {"로그인"}
               </Link>
             )}
-            <Button className="w-full">{"무료 도입 상담"}</Button>
+            <Button className="w-full" onClick={() => setConsultationOpen(true)}>{"무료 도입 상담"}</Button>
           </div>
         </div>
       )}
+      <ConsultationModal open={consultationOpen} onOpenChange={setConsultationOpen} />
     </header>
   );
 }
