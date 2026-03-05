@@ -18,6 +18,7 @@ import {
   PeriodTabs,
   SalesChart,
   StoreComparisonChart,
+  AISalesInsight,
 } from "@/widgets/admin/analytics";
 import {
   exportSalesReport,
@@ -135,6 +136,20 @@ export function BrandAnalyticsView() {
           </Card>
         ))}
       </div>
+
+      {/* AI Insight */}
+      <AISalesInsight
+        salesData={salesData}
+        menuRanking={[]}
+        hourlyData={[]}
+        period={period}
+        kpis={{
+          totalSales,
+          orderCount: totalOrders,
+          avgOrderValue: stores.length > 0 ? totalSales / totalOrders : 0,
+          completionRate: "100%",
+        }}
+      />
 
       {/* Store Comparison */}
       <Card>

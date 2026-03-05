@@ -10,3 +10,5 @@ export { MenuSearchBar } from "./MenuSearchBar";
 export { StaffCallButton } from "./StaffCallButton";
 export { EventBannerCarousel } from "./EventBannerCarousel";
 export { CouponInput } from "./CouponInput";
+export { AIMenuRecommendation } from "./AIMenuRecommendation";
+export { AIChatSheet } from "./AIChatSheet";

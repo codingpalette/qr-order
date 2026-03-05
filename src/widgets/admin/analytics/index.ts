@@ -5,3 +5,4 @@ export { PopularMenuChart } from "./PopularMenuChart";
 export { HourlyOrderChart } from "./HourlyOrderChart";
 export { TableRevenueTable } from "./TableRevenueTable";
 export { StoreComparisonChart } from "./StoreComparisonChart";
+export { AISalesInsight } from "./AISalesInsight";

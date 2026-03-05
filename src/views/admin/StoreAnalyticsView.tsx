@@ -20,6 +20,7 @@ import {
   PopularMenuChart,
   HourlyOrderChart,
   TableRevenueTable,
+  AISalesInsight,
 } from "@/widgets/admin/analytics";
 import { exportSalesReport, exportMenuRanking } from "@/features/analytics-export/lib/csv-export";
 import { type DateRange, getDefaultDateRange } from "@/shared/lib/date-utils";
@@ -137,6 +138,20 @@ export function StoreAnalyticsView() {
           </Card>
         ))}
       </div>
+
+      {/* AI Insight */}
+      <AISalesInsight
+        salesData={salesData}
+        menuRanking={menuRanking}
+        hourlyData={hourlyData}
+        period={period}
+        kpis={{
+          totalSales,
+          orderCount: totalOrders,
+          avgOrderValue,
+          completionRate: "100%",
+        }}
+      />
 
       {/* Sales Chart */}
       <Card>

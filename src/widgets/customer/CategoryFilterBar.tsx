@@ -28,7 +28,7 @@ export function CategoryFilterBar({
   }, [selectedId]);
 
   return (
-    <div className="sticky top-[57px] z-10 border-b border-gray-100 bg-white">
+    <div className="sticky top-[65px] z-10 border-b border-gray-100 bg-white">
       <div
         ref={scrollRef}
         className="scrollbar-hide flex gap-2 overflow-x-auto px-4 py-2.5"

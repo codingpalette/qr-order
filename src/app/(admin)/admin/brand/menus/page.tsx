@@ -76,6 +76,8 @@ import {
   TagIcon,
   GripVertical,
   DollarSignIcon,
+  Sparkles,
+  Loader2,
 } from "lucide-react";
 import type { MasterMenu, MenuCategory } from "@/entities/menu/model/types";
 
@@ -282,6 +284,38 @@ export default function BrandMenusPage() {
 
   const getCategoryName = (categoryId: string) =>
     categories.find((c) => c.id === categoryId)?.name ?? "-";
+
+  // AI description
+  const [aiDescLoading, setAiDescLoading] = useState(false);
+
+  const generateAIDescription = async () => {
+    if (!menuForm.name.trim()) return;
+    setAiDescLoading(true);
+    try {
+      const categoryName =
+        categories.find((c) => c.id === menuForm.category_id)?.name ?? "";
+      const res = await fetch("/api/ai/menu-description", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: menuForm.name.trim(),
+          categoryName,
+          price: menuForm.price ? parseInt(menuForm.price, 10) : undefined,
+          costPrice: menuForm.cost_price ? parseInt(menuForm.cost_price, 10) : undefined,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.description) {
+          setMenuForm((f) => ({ ...f, description: data.description }));
+        }
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setAiDescLoading(false);
+    }
+  };
 
   const isCatPending = createCategory.isPending || updateCategory.isPending;
   const isMenuPending = createMenu.isPending || updateMenu.isPending;
@@ -711,7 +745,24 @@ export default function BrandMenusPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label>{"설명"}</Label>
+              <div className="flex items-center justify-between">
+                <Label>{"설명"}</Label>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="xs"
+                  className="gap-1 text-violet-600 hover:text-violet-700"
+                  onClick={generateAIDescription}
+                  disabled={aiDescLoading || !menuForm.name.trim()}
+                >
+                  {aiDescLoading ? (
+                    <Loader2 className="size-3 animate-spin" />
+                  ) : (
+                    <Sparkles className="size-3" />
+                  )}
+                  {aiDescLoading ? "생성 중..." : "AI로 생성"}
+                </Button>
+              </div>
               <Textarea
                 value={menuForm.description}
                 onChange={(e) =>

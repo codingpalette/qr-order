@@ -21,8 +21,11 @@ import {
   OrderHistorySheet,
   MenuSearchBar,
   EventBannerCarousel,
+  AIMenuRecommendation,
+  AIChatSheet,
 } from "@/widgets/customer";
-import { Loader2, AlertCircle, ChefHat } from "lucide-react";
+import { useChatStore } from "@/features/customer-order/model/useChatStore";
+import { Loader2, AlertCircle, ChefHat, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -76,6 +79,7 @@ export function CustomerMenuView({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const chatStore = useChatStore();
 
   useEffect(() => {
     cart.initCart(storeId, tableNumber, sessionId ?? null);
@@ -219,6 +223,13 @@ export function CustomerMenuView({
         </Link>
       )}
 
+      <AIMenuRecommendation
+        menuItems={menuItems}
+        cartItems={cart.items}
+        storeId={storeId}
+        onMenuTap={(item) => setDetailItem(item)}
+      />
+
       <MenuSearchBar onSearch={handleSearch} />
 
       <CategoryFilterBar
@@ -254,6 +265,14 @@ export function CustomerMenuView({
           ))
         )}
       </div>
+
+      {/* AI Chat FAB */}
+      <button
+        onClick={() => chatStore.setOpen(true)}
+        className="fixed bottom-[88px] right-4 z-40 flex size-12 items-center justify-center rounded-full bg-orange-500 text-white shadow-lg transition-transform active:scale-95"
+      >
+        <Sparkles className="size-5" />
+      </button>
 
       <FloatingCartBar
         itemCount={cart.totalItemCount()}
@@ -305,6 +324,26 @@ export function CustomerMenuView({
         storeId={storeId}
         isLoading={historyLoading}
         onClose={() => setIsHistoryOpen(false)}
+      />
+
+      <AIChatSheet
+        menuItems={menuItems}
+        cartItems={cart.items}
+        storeId={storeId}
+        onAddToCart={(menuId, quantity) => {
+          const menu = menuItems.find((m) => m.id === menuId);
+          if (menu) {
+            for (let i = 0; i < quantity; i++) {
+              cart.addItemSimple({
+                menuId: menu.id,
+                menuType: menu.menuType,
+                name: menu.name,
+                price: menu.price,
+                imageUrl: menu.imageUrl,
+              });
+            }
+          }
+        }}
       />
 
       {createOrder.isError && (
